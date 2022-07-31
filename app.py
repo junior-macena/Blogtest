@@ -49,7 +49,7 @@ def index():
     posts = Post.query.all()
     return render_template('index.html', posts=posts)
 
-@app.route("/register", methods=["GET" ,"POST"])
+@app.route('/register', methods=["GET","POST"])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -57,16 +57,16 @@ def register():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        try:    
+        try:
             new_user = User(username=username, email=email)
             new_user.set_password(password)
             db.session.add(new_user)
             db.session.commit()
         except IntegrityError:
-            flash("Username or E-mail alredy exists!")
+            flash("Username or E-mail already exists!")
         else:
             return redirect(url_for('login'))
-    return render_template('register.html')    
+    return render_template('register.html') 
     
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -77,11 +77,11 @@ def login():
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
         if user is None or not user.check_password(password):
-            flash('Incorrect Username or Password')
+            flash("Incorrect Username or Password")
             return redirect(url_for('login'))
         login_user(user)
         return redirect(url_for('index'))
-    return render_template('login.html')
+    return render_template("login.html")
 
 @app.route('/logout')
 def logout():
