@@ -26,7 +26,7 @@ class Post(db.Model):
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(20), nullable=False, unique=True, index=True)
+    username = db.Column(db.String(20), nullable=False, unique=True, index=True) 
     email = db.Column(db.String(64), nullable=False, unique=True)
     password_hash = db.Column(db.String(128), nullable=False)
     posts = db.relationship('Post', backref='author')
@@ -46,8 +46,8 @@ db.create_all()
 
 @app.route("/")
 def index():
-    posts = Post.query.all()
-    return render_template('index.html', posts=posts)
+    posts = Post.query.order_by(Post.created.desc()).all()
+    return render_template("index.html", posts=posts)
 
 @app.route('/register', methods=["GET","POST"])
 def register():
@@ -66,8 +66,8 @@ def register():
             flash("Username or E-mail already exists!")
         else:
             return redirect(url_for('login'))
-    return render_template('register.html') 
-    
+    return render_template('register.html')
+
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
