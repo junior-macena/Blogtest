@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, current_user, logout_user, login_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
+import os
 
 app = Flask("hello")
 db_url = os.environ.get("DATABASE_URL") or "sqlite:///app.db"
