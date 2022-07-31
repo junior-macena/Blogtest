@@ -6,7 +6,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
 
 app = Flask("hello")
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
+db_url = os.environ.get("DATABASE_URL") or "sqlite:///app.db"
+app.config["SQLALCHEMY_DATABASE_URI"] =  db_url.replace("postgres", "postgresql") 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "pudim"
 
